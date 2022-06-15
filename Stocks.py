@@ -4,13 +4,16 @@ russell3000 = ['TXG', 'FLWS', 'ONEM', 'SRCE', 'XXII', 'TWOU', 'DDD', 'MMM', 'FDM
 
 min_cap = 5
 max_cap = 5000000
-market_cap = int(input("Enter Mininum Market Cap: "))
-while market_cap < min_cap or market_cap > max_cap:
+
+while True:
     try:
-        market_cap = int(input("Enter Mininum Market Cap: "))
+        market_cap = int(input("Enter Minimum Market Cap: "))
+        if market_cap < min_cap or market_cap > max_cap:
+            print("Please input a value between 5 and 5000000.")
+            market_cap = int(input("Enter Minimum Market Cap: "))
+        break
     except ValueError:
-        print("Please input an integer value.")
-        continue   
+        print("Please input an integer value between 5 and 5000000.")
 
 # for stock in russell3000:
 #     stock_data = yf.Ticker(stock).info
