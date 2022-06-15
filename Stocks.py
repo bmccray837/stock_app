@@ -9,21 +9,22 @@ while True:
         print("Please enter a valid number.")
         continue
 
-ten_fav = []
+stock_picks = []
 i = 0
 while i < num_stocks:
     try:
         stock_pick = str(input("Please enter your stock selection: "))
-        ten_fav.append(stock_pick)
+        stock_picks.append(stock_pick)
         i += 1
     except ValueError:
         print("Please input a valid stock ticker.")
 
-for stock in ten_fav:
+for stock in stock_picks:
     try:
         stock_data = yf.Ticker(stock).info
         stock_price = stock_data['regularMarketPrice']
-        print("{stock} is currently trading at ${price}".format(stock = stock, price = stock_price))
+        earnings_yield = stock_data['operatingMargins'] * stock_data['totalRevenue'] / stock_data['enterpriseValue'] * 100
+        print("{stock} is currently trading at ${price} and has an earnings yield of {r}%.".format(stock = stock, price = stock_price, r = round(earnings_yield, 2)))
     except KeyError:
         continue
 
