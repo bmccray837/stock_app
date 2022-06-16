@@ -1,6 +1,7 @@
 import yfinance as yf
 
-
+stock_picks = []
+stock_dict = {}
 while True:
     try:
         num_stocks = int(input("Enter number of stocks you would like to research: "))
@@ -9,7 +10,7 @@ while True:
         print("Please enter a valid number.")
         continue
 
-stock_picks = []
+
 i = 0
 while i < num_stocks:
     try:
@@ -22,8 +23,11 @@ while i < num_stocks:
 for stock in stock_picks:
     try:
         stock_data = yf.Ticker(stock).info
+        stock_metrics = []
         stock_price = stock_data['regularMarketPrice']
         earnings_yield = stock_data['operatingMargins'] * stock_data['totalRevenue'] / stock_data['enterpriseValue'] * 100
+        stock_metrics.extend([stock_price, earnings_yield])
+        stock_dict[stock] = stock_metrics
         print("{stock} is currently trading at ${price} and has an earnings yield of {r}%.".format(stock = stock, price = stock_price, r = round(earnings_yield, 2)))
     except KeyError:
         continue
