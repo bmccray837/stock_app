@@ -39,7 +39,7 @@ for stock in stock_picks:
 sorted_ey = {stock: ey for stock, ey in sorted(ey_rank.items(), key=lambda item: item[1])}
 print(sorted_ey)
 
-
+a
 
 # for stock in russell3000:
 #     stock_data = yf.Ticker(stock).info
