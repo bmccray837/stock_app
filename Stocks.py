@@ -32,7 +32,7 @@ for stock in stock_picks:
         roe = stock_data['returnOnEquity']
         ey_rank[stock] = round(earnings_yield, 2)
         roe_rank[stock] = round(roe * 100, 2)
-        print("{stock} is currently trading at ${price} and has an earnings yield of {r}%.".format(stock = stock, price = stock_price, r = round(earnings_yield, 2)))
+        print("{stock} is currently trading at ${price} with an earnings yield of {r}% AND ROE of {s}%.".format(stock = stock, price = round(stock_price, 2), r = round(earnings_yield, 2), s = round(roe, 2)))
     except KeyError:
         continue
 
