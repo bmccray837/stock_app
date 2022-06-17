@@ -1,5 +1,6 @@
 import yfinance as yf
 import operator
+from collections import Counter
 
 stock_picks = []
 stock_ranking = {}
@@ -8,7 +9,7 @@ roe_rank = {}
 
 while True:
     try:
-        num_stocks = int(input("Enter number of stocks you would like to research: "))
+        num_stocks = int(input("Please enter # of stocks to analyze: "))
         break
     except ValueError:
         print("Please enter a valid number.")
@@ -18,7 +19,7 @@ while True:
 i = 0
 while i < num_stocks:
     try:
-        stock_pick = str(input("Please enter your stock selection: "))
+        stock_pick = str(input("Please enter stock selection: "))
         stock_picks.append(stock_pick)
         i += 1
     except ValueError:
@@ -32,19 +33,33 @@ for stock in stock_picks:
         roe = stock_data['returnOnEquity']
         ey_rank[stock] = round(earnings_yield, 2)
         roe_rank[stock] = round(roe * 100, 2)
-        print("{stock} is currently trading at ${price} with an earnings yield of {r}% AND ROE of {s}%.".format(stock = stock, price = round(stock_price, 2), r = round(earnings_yield, 2), s = round(roe, 2)))
+        print("{stock} is currently trading at ${price} with an earnings yield of {r}\"%\" and ROE of {s}%.".format(stock = stock, price = round(stock_price, 2), r = round(earnings_yield, 2), s = round(roe, 2)))
     except KeyError:
         continue
 
-sorted_ey = {stock: ey for stock, ey in sorted(ey_rank.items(), key=lambda item: item[1])}
-print(sorted_ey)
+sorted_ey = {stock: ey for stock, ey in sorted(ey_rank.items(), key=lambda item: item[1], reverse=True)}
 
-a
+i = 1
+for key, val in sorted_ey.items():
+    sorted_ey[key] = i
+    i += 1
 
-# for stock in russell3000:
-#     stock_data = yf.Ticker(stock).info
-#     if stock_data['sector'] == "Financial Services" or stock_data['sector'] == "Utilities":
-#         continue
-#     else:
+sorted_roe = {k: v for k, v in sorted(roe_rank.items(), key=lambda item: item[1], reverse=True )}
+
+v = 1
+for key, val in sorted_roe.items():
+    sorted_roe[key] = v
+    v += 1
+
+total_rank = dict(Counter(sorted_ey)+Counter(sorted_roe))
+sorted_tr = {k: v for k, v in sorted(total_rank.items(), key=lambda item: item[1], reverse=False)}
+# print(sorted_tr)
+
+print("Your top ranked stocks based on ROE and Earnings Yield metrics are:")
+i = 1
+for k in sorted_tr.keys():
+    print(i, "-", k)
+    i += 1
+
 
 
