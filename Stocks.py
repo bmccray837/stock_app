@@ -14,7 +14,6 @@ class Stock:
         self.ey = stock_data['operatingMargins'] * stock_data['totalRevenue'] / stock_data['enterpriseValue'] * 100
         self.roe = stock_data['returnOnEquity']
 
-
 while True:
     try:
         num_stocks = int(input("Please enter # of stocks to analyze: "))
@@ -22,7 +21,6 @@ while True:
     except ValueError:
         print("Please enter a valid number.")
         continue
-
 
 i = 0
 while i < num_stocks:
@@ -39,7 +37,7 @@ for stock in stock_picks:
         price = new_stock.price
         ey_rank[stock] = round(new_stock.ey, 2)
         roe_rank[stock] = round(new_stock.roe * 100, 2)
-        print("{stock} is currently trading at ${price} with an earnings yield of {r}\"%\" and ROE of {s}%.".format(stock = stock, price = round(price, 2), r = round(new_stock.ey, 2), s = round(new_stock.roe, 2)))
+        print("{stock} is currently trading at ${price} with an earnings yield of {r}%, and ROE of {s}%.".format(stock = stock, price = round(price, 2), r = round(new_stock.ey, 2), s = round(new_stock.roe, 2)))
     except KeyError:
         continue
 
