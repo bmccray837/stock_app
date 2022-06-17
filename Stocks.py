@@ -7,6 +7,14 @@ stock_ranking = {}
 ey_rank = {}
 roe_rank = {}
 
+class Stock:
+    def __init__(self, ticker):
+        stock_data = yf.Ticker(ticker).info
+        self.price = stock_data['regularMarketPrice']
+        self.ey = stock_data['operatingMargins'] * stock_data['totalRevenue'] / stock_data['enterpriseValue'] * 100
+        self.roe = stock_data['returnOnEquity']
+
+
 while True:
     try:
         num_stocks = int(input("Please enter # of stocks to analyze: "))
@@ -27,13 +35,11 @@ while i < num_stocks:
 
 for stock in stock_picks:
     try:
-        stock_data = yf.Ticker(stock).info
-        stock_price = stock_data['regularMarketPrice']
-        earnings_yield = stock_data['operatingMargins'] * stock_data['totalRevenue'] / stock_data['enterpriseValue'] * 100
-        roe = stock_data['returnOnEquity']
-        ey_rank[stock] = round(earnings_yield, 2)
-        roe_rank[stock] = round(roe * 100, 2)
-        print("{stock} is currently trading at ${price} with an earnings yield of {r}\"%\" and ROE of {s}%.".format(stock = stock, price = round(stock_price, 2), r = round(earnings_yield, 2), s = round(roe, 2)))
+        new_stock = Stock(stock)
+        price = new_stock.price
+        ey_rank[stock] = round(new_stock.ey, 2)
+        roe_rank[stock] = round(new_stock.roe * 100, 2)
+        print("{stock} is currently trading at ${price} with an earnings yield of {r}\"%\" and ROE of {s}%.".format(stock = stock, price = round(price, 2), r = round(new_stock.ey, 2), s = round(new_stock.roe, 2)))
     except KeyError:
         continue
 
@@ -53,7 +59,6 @@ for key, val in sorted_roe.items():
 
 total_rank = dict(Counter(sorted_ey)+Counter(sorted_roe))
 sorted_tr = {k: v for k, v in sorted(total_rank.items(), key=lambda item: item[1], reverse=False)}
-# print(sorted_tr)
 
 print("Your top ranked stocks based on ROE and Earnings Yield metrics are:")
 i = 1
